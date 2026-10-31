@@ -12,10 +12,6 @@ hover to see the default profile.
 - Refresh on opening, every ten seconds, or with a middle click on the bar button.
 - Uses Omarchy theme colors, supports scrolling and Escape to dismiss.
 
-Requires Omarchy's Quickshell bar, Python 3, pi, and `ppi` (`npm install -g pi-profiles`).
-The plugin uses the installed CLI and honors `PPI_PI_ROOT`. It never reads auth files.
-The desktop must have `ppi` on PATH or in the mise shims directory.
-
 ## Screenshots
 
 The actual QML menu rendered with example profiles.
@@ -29,26 +25,81 @@ Rendering uses an isolated environment and does not read or modify your profiles
 
 ## Install
 
-Clone and install:
+Requires Omarchy's Quickshell bar, Python 3, pi, and `ppi` (`npm install -g pi-profiles`).
+The desktop must have `ppi` on PATH or in the mise shims directory.
+
+Install directly with Omarchy:
 
 ```sh
-git clone git@github.com:ianzano/omarchy-pi-profiles.git
+omarchy plugin add https://github.com/ianzano/omarchy-pi-profiles.git --enable
+```
+
+This clones the repository into `~/.config/omarchy/plugins/ianzano.pi-profiles/`
+and enables the widget in the right bar section by default. Omarchy may ask
+where to place it during interactive installation.
+
+To install from a local checkout:
+
+```sh
+git clone https://github.com/ianzano/omarchy-pi-profiles.git
 cd omarchy-pi-profiles
 python3 install.py
 ```
 
-It installs to
-`~/.config/omarchy/plugins/ianzano.pi-profiles/`, backs up the existing bar config,
-and adds one bar slot next to the tray. Reinstalling preserves its placement.
-Omarchy normally hot-reloads the plugin. If it still displays an older version,
-run `omarchy restart shell`.
+The manual installer adds the widget beside the system tray, backs up
+`shell.json` to `shell.json.bak.pi-profiles-<timestamp>`, and saves existing
+plugin files under `~/.config/omarchy/plugin-backups/`. Reinstalling preserves
+bar placement. Omarchy normally hot-reloads plugins; if an older version
+remains visible, run `omarchy restart shell`.
 
-Run `python3 -m unittest discover -p test_backend.py -v` to test against the installed ppi using temporary
-profile directories. Your real profiles are not modified by the tests.
-Run `python3 test_ui.py` in your Wayland session for the real Quickshell load
-and profile action checks, also using temporary profiles.
+`manifest.json`, `Panel.qml`, `backend.py`, and `pi-logo.svg` live at the
+repository root so Omarchy can install the repository directly without running
+`install.py`. The repository name is `omarchy-pi-profiles`; the plugin ID and
+installed directory name are `ianzano.pi-profiles`.
 
-To remove the bar widget, run `omarchy plugin disable ianzano.pi-profiles`.
+## Update
+
+For installations made with `omarchy plugin add`:
+
+```sh
+omarchy plugin update ianzano.pi-profiles
+```
+
+For manual installs, pull the repository and run `python3 install.py` again.
+The manual installer copies runtime files rather than creating a Git checkout;
+Omarchy's update command applies to installations made through its plugin manager.
+
+## Remove
+
+```sh
+omarchy plugin remove ianzano.pi-profiles
+```
+
+To hide the bar widget without uninstalling it:
+
+```sh
+omarchy plugin disable ianzano.pi-profiles
+```
+
+Removing or disabling the plugin leaves your Pi profiles and sessions untouched.
+
+## Validation
+
+```sh
+omarchy plugin validate .
+python3 -m unittest discover -p test_backend.py -v
+python3 test_ui.py
+```
+
+UI tests require a Wayland session. Tests use temporary profiles and do not
+modify your real profiles. They cover default selection, removal confirmation
+and cancellation, and independent launches of the same profile.
+
+## Local data
+
+The plugin discovers profiles using the installed `ppi` CLI and honors
+`PPI_PI_ROOT`. It never reads auth files. Profile names and paths are discovered
+locally at runtime; screenshots use example profiles.
 
 ## License
 
