@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "ianzano.pi-profiles",
+  "name": "Pi Profiles",
+  "version": "1.1.0",
+  "author": "ianzano",
+  "description": "Launch and manage pi-profiles from the bar.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Pi Profiles",
+    "category": "Development",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  },
+  "license": "MIT"
+}
