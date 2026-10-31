@@ -16,6 +16,17 @@ Requires Omarchy's Quickshell bar, Python 3, pi, and `ppi` (`npm install -g pi-p
 The plugin uses the installed CLI and honors `PPI_PI_ROOT`. It never reads auth files.
 The desktop must have `ppi` on PATH or in the mise shims directory.
 
+## Screenshots
+
+The actual QML menu rendered with example profiles.
+
+| Profile list | Removal confirmation |
+| --- | --- |
+| ![Pi profile list with default indicator and direct actions](docs/screenshots/profiles.png) | ![Explicit confirmation before deleting a profile](docs/screenshots/confirmation.png) |
+
+Regenerate these images with `python3 tools/screenshots.py` on an Omarchy system.
+Rendering uses an isolated environment and does not read or modify your profiles.
+
 ## Install
 
 Clone and install:
